@@ -20,6 +20,7 @@ namespace MapExplore.Controllers
         {
             Brewery newBrewery = new Brewery();
             newBrewery.GetBreweries();
+
             return View(newBrewery);
         }
     }

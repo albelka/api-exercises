@@ -7,11 +7,14 @@ using RestSharp.Authenticators;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace MapExplore.Models
 {
     public class Brewery
     {
+        [Key]
+        public int BreweryId { get; set; }
         public string Lat { get; set; }
         public string Long { get; set; }
         public string Name { get; set; }
