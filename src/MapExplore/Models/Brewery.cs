@@ -19,19 +19,22 @@ namespace MapExplore.Models
         public void GetBreweries()
         {
             var client = new RestClient("http://api.brewerydb.com/v2");
-            var request = new RestRequest("/location/d25euF/?key=65c0242a26aa3edd867b8ea8edaf7236", Method.GET);
+            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=97204", Method.GET);
             var response = new RestResponse();
             Task.Run(async () =>
             {
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            JObject brewery = JsonConvert.DeserializeObject<JObject>(jsonResponse["data"].ToString());
-           
-            Name = brewery["name"].ToString();
-            Lat = brewery["latitude"].ToString();
-            Long = brewery["longitude"].ToString();
-            Debug.WriteLine(brewery["longitude"]);
+            JObject[] brewery = JsonConvert.DeserializeObject<JObject[]>(jsonResponse["data"].ToString());
+           foreach(var guy in brewery)
+            {
+            Name = guy["name"].ToString();
+            Lat = guy["latitude"].ToString();
+            Long = guy["longitude"].ToString();
+            Debug.WriteLine(guy["longitude"]);
+
+            }
            
 
         }
