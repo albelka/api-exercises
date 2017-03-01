@@ -3,11 +3,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<MapExplore.Models.Brewery>
+@using MapExplore.Models
 
-<h2>The Brewery</h2>
+<h2>The Brewery is @Model.Name</h2>
+at @Model.Lat , @Model.Long
+
+@using MapExplore.Models
+
+<div id="map"></div>
+HI
+<script>
+L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiZWxrYSIsImEiOiJjaXpwc2VlOWwwMHNtMzJvNDZreDMxMTgwIn0.GkWVE5JQRakQyQSoJFKp3A';
+var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
+    .setView([41.387635, -70.530320], 11);
+
+    L.marker([@Model.Lat, @Model.Long]).addTo(map)
+.bindPopup('This is the magical spot where Steve may have smoked lucky strikes after his paper route.')
+.openPopup();
+</script>
 
 
-{
-  
-}

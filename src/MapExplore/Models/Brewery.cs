@@ -26,9 +26,13 @@ namespace MapExplore.Models
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            var brewery = JsonConvert.DeserializeObject<JObject>(jsonResponse["data[name]"].ToString());
-            Debug.WriteLine(brewery);
-            
+            JObject brewery = JsonConvert.DeserializeObject<JObject>(jsonResponse["data"].ToString());
+           
+            Name = brewery["name"].ToString();
+            Lat = brewery["latitude"].ToString();
+            Long = brewery["longitude"].ToString();
+            Debug.WriteLine(brewery["longitude"]);
+           
 
         }
 

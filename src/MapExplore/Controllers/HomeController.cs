@@ -18,8 +18,9 @@ namespace MapExplore.Controllers
 
         public IActionResult GetBreweries()
         {
-            var allBreweries = Brewery.GetBreweries();
-            return View(allBreweries);
+            Brewery newBrewery = new Brewery();
+            newBrewery.GetBreweries();
+            return View(newBrewery);
         }
     }
 }
