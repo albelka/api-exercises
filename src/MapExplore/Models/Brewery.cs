@@ -24,27 +24,37 @@ namespace MapExplore.Models
         {
             var client = new RestClient("http://api.brewerydb.com/v2");
             var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=" + zip , Method.GET);
+            Debug.WriteLine(request +"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            
             var response = new RestResponse();
-            Task.Run(async () =>
+                Task.Run(async () =>
+                {
+                    response = await GetResponseContentAsync(client, request) as RestResponse;
+                }).Wait();
+            if (response.ContentLength != 36 )
             {
-                response = await GetResponseContentAsync(client, request) as RestResponse;
-            }).Wait();
-            JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
-            JObject[] brewery = JsonConvert.DeserializeObject<JObject[]>(jsonResponse["data"].ToString());
+                JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
+                JObject[] brewery = JsonConvert.DeserializeObject<JObject[]>(jsonResponse["data"].ToString());
 
-            List<Brewery> myList = new List<Brewery>() { };
-            foreach (var guy in brewery)
-            {
-                Brewery newBrewery = new Brewery();
-                newBrewery.Name = guy["name"].ToString();
-                newBrewery.Lat = guy["latitude"].ToString();
-                newBrewery.Long = guy["longitude"].ToString();
-                myList.Add(newBrewery);
+                List<Brewery> myList = new List<Brewery>() { };
+                foreach (var guy in brewery)
+                {
+                    Brewery newBrewery = new Brewery();
+                    newBrewery.Name = guy["name"].ToString();
+                    newBrewery.Lat = guy["latitude"].ToString();
+                    newBrewery.Long = guy["longitude"].ToString();
+                    myList.Add(newBrewery);
 
+                }
+                Debug.WriteLine(myList);
+                return myList;
             }
-            Debug.WriteLine(myList);
-            return myList;
-
+            else
+            {
+                List<Brewery> myList = new List<Brewery>() { };
+                return myList;
+              
+            }
         }
 
         public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)

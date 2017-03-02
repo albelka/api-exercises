@@ -38,6 +38,7 @@ var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
                     .openPopup();
 
                     }));
+                    $('.showButton').show();
                 },
            
             });
@@ -56,6 +57,9 @@ HI
 }
 
 <div id="showMap"></div>
+<div class="showButton">
+    @Html.ActionLink("Try another zipcode", "Index")
+</div>
 
 @model IEnumerable<MapExplore.Models.Brewery>
 

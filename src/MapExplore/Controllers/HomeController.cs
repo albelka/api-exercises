@@ -19,15 +19,23 @@ namespace MapExplore.Controllers
 
         public IActionResult GetBreweries( string zip)
         {
-            
             List<Brewery> myList= Brewery.GetBreweries(zip);
-           
+            if(myList.Count() == 0)
+            {
+                return View("Index");
+            }
+            else
+            Debug.WriteLine("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERE");
+            {
             foreach(var brew in myList)
             {
             db.Breweries.Add(brew);
             db.SaveChanges();
             }
             return Json(myList);
+
+            }
+           
         }
     }
 }
