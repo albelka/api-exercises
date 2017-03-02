@@ -21,14 +21,13 @@ namespace MapExplore.Controllers
         {
             
             List<Brewery> myList= Brewery.GetBreweries(zip);
-            Debug.WriteLine("LIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIST" + myList[0]);
+           
             foreach(var brew in myList)
             {
-                Debug.WriteLine("***************************************************************" + brew);
             db.Breweries.Add(brew);
             db.SaveChanges();
             }
-            return View(myList);
+            return Json(myList);
         }
     }
 }

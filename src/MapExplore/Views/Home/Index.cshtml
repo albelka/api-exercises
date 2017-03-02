@@ -16,33 +16,55 @@ var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
 .openPopup();
 </script>*@
 <script>
-    $('.get-brews').submit(function (event) {
-        event.preventDefault();
-        $.ajax({
-            url: '@Url.Action("GetBreweries", "Home")',
-            type: 'GET',
-            data: { zip: zip },
-            dataType: 'json',
-            success: function (result) {
-                $('#showMap').html(result);
-            }
+    $(document).ready(function () {
+        $('#myButton').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '@Url.Action("GetBreweries", "Home")',
+                type: 'GET',
+                data: { zip: "97211" },
+                dataType: 'json',
+                success: function (result) {
+                    L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiZWxrYSIsImEiOiJjaXpwc2VlOWwwMHNtMzJvNDZreDMxMTgwIn0.GkWVE5JQRakQyQSoJFKp3A';
+                    var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
+                        .setView([45.5588827, -122.6427274], 11);
+                    console.log(result);
+                    $('#showMap').html(
+
+                    result.forEach(function (thing) {
+                        console.log(thing.lat)
+                        L.marker([thing.lat, thing.long]).addTo(map)
+                    .bindPopup(thing.name)
+                    .openPopup();
+
+                    }));
+                },
+           
+            });
         });
-    });
+    })
 </script>
 
 HI
 
-@using (Html.BeginForm("GetBreweries", "Home", new { @class = "get-brews" }))
+@using (Html.BeginForm( new { @class = "get-brews" }))
 {
     @Html.Label("Enter a ZIP code")
     @Html.TextBox("zip")
+
+    <input id="myButton" type="submit" value="Submit" />
 }
 
-
-@*<form asp-controller="Home" asp-action="GetBreweries" class="get-brews">
-    <input asp-for="zip" type="text" name="zip" />
-    <label asp-for="zip">Enter your zip code:</label>
-    <input type="submit" value="Get map" />
-</form>*@
-
 <div id="showMap"></div>
+
+@model IEnumerable<MapExplore.Models.Brewery>
+
+
+@*@foreach (var brewery in Model)
+{
+    <h2>@Html.DisplayFor(model => brewery.Name)</h2>
+    <p> @Html.DisplayFor(model => brewery.Lat) , @Html.DisplayFor(model => brewery.Long)</p>
+
+}*@
+<div id="map"></div>
+

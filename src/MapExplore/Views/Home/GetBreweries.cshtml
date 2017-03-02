@@ -3,28 +3,5 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<MapExplore.Models.Brewery>
-
-
-@foreach (var brewery in Model)
-{
-<h2>@Html.DisplayFor(model => brewery.Name)</h2>
-<p> @Html.DisplayFor(model => brewery.Lat) , @Html.DisplayFor(model => brewery.Long)</p>
-
-}
-<div id="map"></div>
-HI
-<script>
-L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiZWxrYSIsImEiOiJjaXpwc2VlOWwwMHNtMzJvNDZreDMxMTgwIn0.GkWVE5JQRakQyQSoJFKp3A';
-var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
-    .setView([41.387635, -70.530320], 11);
-Model.forEach(function (thing) {
-    console.log(thing.Lat)
-    L.marker([thing.Lat, thing.Long]).addTo(map)
-.bindPopup('This is the magical spot where Steve may have smoked lucky strikes after his paper route.')
-.openPopup();
-
-});
-</script>
 
 
