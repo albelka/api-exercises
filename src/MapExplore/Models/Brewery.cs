@@ -19,10 +19,11 @@ namespace MapExplore.Models
         public string Long { get; set; }
         public string Name { get; set; }
 
-        public void GetBreweries()
+        private MapExploreDbContext db = new MapExploreDbContext();
+        public static List<Brewery> GetBreweries()
         {
             var client = new RestClient("http://api.brewerydb.com/v2");
-            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=97204", Method.GET);
+            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=97211", Method.GET);
             var response = new RestResponse();
             Task.Run(async () =>
             {
@@ -30,15 +31,19 @@ namespace MapExplore.Models
             }).Wait();
             JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(response.Content);
             JObject[] brewery = JsonConvert.DeserializeObject<JObject[]>(jsonResponse["data"].ToString());
-           foreach(var guy in brewery)
+
+            List<Brewery> myList = new List<Brewery>() { };
+            foreach (var guy in brewery)
             {
-            Name = guy["name"].ToString();
-            Lat = guy["latitude"].ToString();
-            Long = guy["longitude"].ToString();
-            Debug.WriteLine(guy["longitude"]);
+                Brewery newBrewery = new Brewery();
+                newBrewery.Name = guy["name"].ToString();
+                newBrewery.Lat = guy["latitude"].ToString();
+                newBrewery.Long = guy["longitude"].ToString();
+                myList.Add(newBrewery);
 
             }
-           
+            Debug.WriteLine(myList);
+            return myList;
 
         }
 
