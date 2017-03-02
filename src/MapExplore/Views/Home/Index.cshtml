@@ -22,7 +22,7 @@ var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
             $.ajax({
                 url: '@Url.Action("GetBreweries", "Home")',
                 type: 'GET',
-                data: { zip: "97211" },
+                data: { zip: $('#zip').val() },
                 dataType: 'json',
                 success: function (result) {
                     L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiZWxrYSIsImEiOiJjaXpwc2VlOWwwMHNtMzJvNDZreDMxMTgwIn0.GkWVE5JQRakQyQSoJFKp3A';
