@@ -15,5 +15,34 @@ var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
 .bindPopup('This is the magical spot where Steve may have smoked lucky strikes after his paper route.')
 .openPopup();
 </script>*@
+<script>
+    $('.get-brews').submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: '@Url.Action("GetBreweries", "Home")',
+            type: 'GET',
+            data: { zip: zip },
+            dataType: 'json',
+            success: function (result) {
+                $('#showMap').html(result);
+            }
+        });
+    });
+</script>
 
-@Html.ActionLink("View all breweries", "GetBreweries")
+HI
+
+@using (Html.BeginForm("GetBreweries", "Home", new { @class = "get-brews" }))
+{
+    @Html.Label("Enter a ZIP code")
+    @Html.TextBox("zip")
+}
+
+
+@*<form asp-controller="Home" asp-action="GetBreweries" class="get-brews">
+    <input asp-for="zip" type="text" name="zip" />
+    <label asp-for="zip">Enter your zip code:</label>
+    <input type="submit" value="Get map" />
+</form>*@
+
+<div id="showMap"></div>

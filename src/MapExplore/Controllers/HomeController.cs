@@ -17,10 +17,10 @@ namespace MapExplore.Controllers
             return View();
         }
 
-        public IActionResult GetBreweries()
+        public IActionResult GetBreweries( string zip)
         {
             
-            List<Brewery> myList= Brewery.GetBreweries();
+            List<Brewery> myList= Brewery.GetBreweries(zip);
             Debug.WriteLine("LIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIST" + myList[0]);
             foreach(var brew in myList)
             {
@@ -28,8 +28,6 @@ namespace MapExplore.Controllers
             db.Breweries.Add(brew);
             db.SaveChanges();
             }
-
-
             return View(myList);
         }
     }

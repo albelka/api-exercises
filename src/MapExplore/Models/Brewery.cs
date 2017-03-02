@@ -20,10 +20,10 @@ namespace MapExplore.Models
         public string Name { get; set; }
 
         private MapExploreDbContext db = new MapExploreDbContext();
-        public static List<Brewery> GetBreweries()
+        public static List<Brewery> GetBreweries(string zip)
         {
             var client = new RestClient("http://api.brewerydb.com/v2");
-            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=97211", Method.GET);
+            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=" + zip , Method.GET);
             var response = new RestResponse();
             Task.Run(async () =>
             {
