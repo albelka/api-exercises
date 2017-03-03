@@ -23,9 +23,7 @@ namespace MapExplore.Models
         public static List<Brewery> GetBreweries(string zip)
         {
             var client = new RestClient("http://api.brewerydb.com/v2");
-            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=" + zip , Method.GET);
-            Debug.WriteLine(request +"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            
+            var request = new RestRequest("/locations/?key=" + EnvironmentVariables.BreweryKey + "&postalCode=" + zip, Method.GET);          
             var response = new RestResponse();
                 Task.Run(async () =>
                 {

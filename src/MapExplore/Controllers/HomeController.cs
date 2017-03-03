@@ -16,7 +16,7 @@ namespace MapExplore.Controllers
         {
             return View();
         }
-
+        [HttpPost]
         public IActionResult GetBreweries( string zip)
         {
             List<Brewery> myList= Brewery.GetBreweries(zip);
@@ -25,7 +25,7 @@ namespace MapExplore.Controllers
                 return View("Index");
             }
             else
-            Debug.WriteLine("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERE");
+           
             {
             foreach(var brew in myList)
             {

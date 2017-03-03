@@ -2,31 +2,31 @@
     ViewData["Title"] = "Map Explore";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using MapExplore.Models
 
-@*<div id="map"></div>
-HI
-<script>
-L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiZWxrYSIsImEiOiJjaXpwc2VlOWwwMHNtMzJvNDZreDMxMTgwIn0.GkWVE5JQRakQyQSoJFKp3A';
-var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
-    .setView([41.387635, -70.530320], 11);
+@model IEnumerable<MapExplore.Models.Brewery>
 
-    L.marker([@Model.Lat, @Model.Long]).addTo(map)
-.bindPopup('This is the magical spot where Steve may have smoked lucky strikes after his paper route.')
-.openPopup();
-</script>*@
 <script>
     $(document).ready(function () {
         $('#myButton').click(function (event) {
             event.preventDefault();
+            if ($('#zip').val() === "")
+            {
+                alert("this field is required")
+
+            }
+            else
+            {
+
+
+
             $.ajax({
                 url: '@Url.Action("GetBreweries", "Home")',
-                type: 'GET',
+                type: 'POST',
                 data: { zip: $('#zip').val() },
                 dataType: 'json',
                 success: function (result) {
                     L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiZWxrYSIsImEiOiJjaXpwc2VlOWwwMHNtMzJvNDZreDMxMTgwIn0.GkWVE5JQRakQyQSoJFKp3A';
-                    var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
+                    var map = L.mapbox.map('map', 'mapbox.outdoors')
                         .setView([45.5588827, -122.6427274], 11);
                     console.log(result);
                     $('#showMap').html(
@@ -39,36 +39,29 @@ var map = L.mapbox.map('map', 'mapbox.run-bike-hike')
 
                     }));
                     $('.showButton').show();
-                },
+                }
            
             });
+            }
         });
     })
 </script>
 
-HI
 
-@using (Html.BeginForm( new { @class = "get-brews" }))
+@using (Html.BeginForm(new { @class = "get-brews" }))
 {
-    @Html.Label("Enter a ZIP code")
-    @Html.TextBox("zip")
+    <div class="input-field col s6">
+        @Html.Label("Enter a ZIP code")
+        @Html.TextBox("zip", null, new { required=string.Empty })
+    </div>
 
-    <input id="myButton" type="submit" value="Submit" />
-}
+        <input id="myButton" type="submit" value="Submit" class="btn"/>
+        }
 
-<div id="showMap"></div>
-<div class="showButton">
-    @Html.ActionLink("Try another zipcode", "Index")
-</div>
+        <div id="showMap"></div>
+        <div class="showButton">
+            @Html.ActionLink("Try another zipcode", "Index")
+        </div>
 
-@model IEnumerable<MapExplore.Models.Brewery>
-
-
-@*@foreach (var brewery in Model)
-{
-    <h2>@Html.DisplayFor(model => brewery.Name)</h2>
-    <p> @Html.DisplayFor(model => brewery.Lat) , @Html.DisplayFor(model => brewery.Long)</p>
-
-}*@
-<div id="map"></div>
+        <div id="map"></div>
 

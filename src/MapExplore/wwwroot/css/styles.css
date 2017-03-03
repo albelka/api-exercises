@@ -1,6 +1,10 @@
 ﻿body {
-    
+    background-color: lightblue;
 }
 div.showButton {
     display: none;
+}
+
+form.get-brews {
+    color: white;
 }
